@@ -1,4 +1,6 @@
 using EcoFarmAPI.Src.Contextos;
+using EcoFarmAPI.Src.Repositorios;
+using EcoFarmAPI.Src.Repositorios.Implementacoes;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +30,8 @@ namespace EcoFarmAPI
         {
             // Configuração de Banco de dados
             services.AddDbContext<EcoFarmContexto>(opt => opt.UseSqlServer(Configuration["ConnectionStringsDev:DefaultConnection"]));
+            //Repositorios
+            services.AddScoped<IEstoque, EstoqueRepositorio>();
             // Controladores
             services.AddControllers();
         }
