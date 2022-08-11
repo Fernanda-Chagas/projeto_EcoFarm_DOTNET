@@ -34,6 +34,7 @@ namespace EcoFarmAPI.Src.Modelos
 
         [ForeignKey("fk_fornecedor")]
         public Usuario Fornecedor { get; set; }
+        
 
         #endregion
     }
