@@ -46,6 +46,7 @@ namespace EcoFarmAPI.Src.Repositorios.Implementacoes
                 });
             await _contexto.SaveChangesAsync();
         }
+
         public async Task<List<Estoque>> PegarTodosProdutosAsync()
         {
             return await _contexto.Produtos.ToListAsync();
@@ -62,7 +63,7 @@ namespace EcoFarmAPI.Src.Repositorios.Implementacoes
                 return auxiliar != null;
             }
         }
-        public async Task AtualizarPrudutoAsync(Estoque produto)
+        public async Task AtualizarProdutoAsync(Estoque produto)
         {
             var produtoExistente = await PegarProdutoPeloIdAsync(produto.Id);
             produtoExistente.NomeProduto = produto.NomeProduto;
