@@ -39,6 +39,8 @@ namespace EcoFarmAPI.Src.Modelos
 
         #endregion
     }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum Categoria 
     {
         CLIENTE,

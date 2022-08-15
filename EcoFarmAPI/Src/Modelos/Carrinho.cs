@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace EcoFarmAPI.Src.Modelos
 {
@@ -27,8 +28,17 @@ namespace EcoFarmAPI.Src.Modelos
         [ForeignKey("fk_estoque")]
         public Estoque Estoque { get; set; }
 
-        #endregion
+        public Status StatusPagamento { get; set; }
 
+        #endregion
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum Status
+    {
+        Pendente,
+        Cancelado,
+        Pago
     }
 }
 
