@@ -16,7 +16,7 @@ namespace EcoFarmAPI.Src.Repositorios
         Task<List<Estoque>> PegarTodosProdutosAsync();
         Task<Estoque> PegarProdutoPeloIdAsync(int id);
         Task NovoProdutoAsync(Estoque produto);
-        Task AtualizarPrudutoAsync (Estoque produto);
+        Task AtualizarProdutoAsync (Estoque produto);
         Task DeletarProdutoAsync(int id);
 
     }

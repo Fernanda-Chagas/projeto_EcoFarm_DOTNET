@@ -33,6 +33,7 @@ namespace EcoFarmAPI
             //Repositorios
             services.AddScoped<IEstoque, EstoqueRepositorio>();
             // Controladores
+            services.AddCors();
             services.AddControllers();
         }
 
@@ -49,8 +50,13 @@ namespace EcoFarmAPI
             // Ambiente de produção
             contexto.Database.EnsureCreated();
 
-
+            //Rotas
             app.UseRouting();
+
+            app.UseCors(c => c
+               .AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
 
             app.UseAuthorization();
 
