@@ -18,17 +18,19 @@ namespace EcoFarmAPI.Src.Repositorios.Implementacoes
     public class EstoqueRepositorio : IEstoque
     {
         
-         #region Atributos
+        #region Atributos
 
-         private readonly EcoFarmContexto _contexto;
+        private readonly EcoFarmContexto _contexto;
 
         #endregion Atributos 
         
         #region Construtores
+
         public EstoqueRepositorio(EcoFarmContexto contexto)
         {
             _contexto = contexto;
         }
+        
         #endregion Construtores
 
         #region Métodos
@@ -46,7 +48,6 @@ namespace EcoFarmAPI.Src.Repositorios.Implementacoes
                 });
             await _contexto.SaveChangesAsync();
         }
-
         public async Task<List<Estoque>> PegarTodosProdutosAsync()
         {
             return await _contexto.Produtos.ToListAsync();
