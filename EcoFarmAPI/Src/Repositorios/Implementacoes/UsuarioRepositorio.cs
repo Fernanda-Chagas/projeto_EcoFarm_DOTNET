@@ -1,18 +1,50 @@
-﻿using EcoFarmAPI.Src.Modelos;
+﻿using EcoFarmAPI.Src.Contextos;
+using EcoFarmAPI.Src.Modelos;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace EcoFarmAPI.Src.Repositorios.Implementacoes
 {
     public class UsuarioRepositorio : IUsuario
     {
-        public Task NovoUsuarioAsync(Usuario usuario)
+        #region Atributos
+        private readonly EcoFarmContexto _contexto;
+        #endregion
+        #region Construtores
+        public UsuarioRepositorio(EcoFarmContexto contexto)
         {
-            throw new System.NotImplementedException();
+            _contexto = contexto;
+        }
+        #endregion
+        #region Métodos
+        /// <summary>
+        /// <para>Resumo: Método assíncrono para salvar um novo usuario</para>
+        /// </summary>
+        /// <param name="usuario">Construtor para cadastrar usuario</param>
+        public async Task NovoUsuarioAsync(Usuario usuario)
+        {
+            await _contexto.Usuarios.AddAsync(
+            new Usuario
+            {
+                Email = usuario.Email,
+                Nome = usuario.Nome,
+                Senha = usuario.Senha,
+                TipoUsuario = usuario.TipoUsuario,
+            });
+            await _contexto.SaveChangesAsync();
         }
 
-        public Task<Usuario> PegarUsuarioPeloEmailAsync(string email)
+        /// <summary>
+        /// <para>Resumo: Método assíncrono para pegar um usuario pelo email</para>
+        /// </summary>
+        /// <param name="email">Email do usuario</param>
+        /// <return>UsuarioModelo</return>
+        public async Task<Usuario> PegarUsuarioPeloEmailAsync(string email)
         {
-            throw new System.NotImplementedException();
+            return await _contexto.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
         }
+        #endregion
+
+
     }
 }
