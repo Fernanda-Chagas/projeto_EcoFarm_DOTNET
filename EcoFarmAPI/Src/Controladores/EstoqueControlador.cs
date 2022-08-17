@@ -48,7 +48,7 @@ namespace EcoFarmAPI.Src.Controladores
             }
 
             [HttpPost]
-            public async Task<ActionResult> NovaProdutoAsync([FromBody] Estoque produto)
+            public async Task<ActionResult> NovoProdutoAsync([FromBody] Estoque produto)
             {
                 try
                 {

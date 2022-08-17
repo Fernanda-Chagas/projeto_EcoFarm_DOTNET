@@ -1,5 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace EcoFarmAPI.Src.Modelos
 {
@@ -15,20 +18,22 @@ namespace EcoFarmAPI.Src.Modelos
     {
         #region Atributos
 
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int IdProduto { get; set; }
 
-        public int Quantidade { get; set; }  
+        public string IdCompra { get; set; }
 
         [ForeignKey("fk_cliente")]
         public Usuario Cliente { get; set; }
 
-        [ForeignKey("fk_estoque")]
-        public Estoque Estoque { get; set; }
+        [ForeignKey("fk_produto")]
+        public Estoque Produto { get; set; }
+
+        public int Quantidade { get; set; }  
+
+        public DateTime Data { get; set; }
 
         #endregion
-
     }
 }
 
