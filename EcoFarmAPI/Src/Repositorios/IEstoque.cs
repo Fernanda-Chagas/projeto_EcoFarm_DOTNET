@@ -6,9 +6,9 @@ namespace EcoFarmAPI.Src.Repositorios
 {
     /// <summary>
     /// <para>Resumo: Responsavel por representar ações de CRUD de estoque</para>
-    /// <para>Criado por: Fernanda</para>
+    /// <para>Criado por: Isarel</para>
     /// <para>Versão: 1.0</para>
-    /// <para>Data: 10/08/2022</para>
+    /// <para>Data: 17/08/2022</para>
     /// </summary>
 
     public interface IEstoque
