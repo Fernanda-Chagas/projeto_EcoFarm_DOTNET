@@ -13,14 +13,21 @@ namespace EcoFarmAPI.Src.Controladores
     public class UsuarioControlador : ControllerBase
     {
         #region Atributos
+
         private readonly IUsuario _repositorio;
+
         #endregion
+
+
         #region Construtores
+
         public UsuarioControlador(IUsuario repositorio)
         {
             _repositorio = repositorio;
         }
+
         #endregion
+
 
         #region Métodos
 
@@ -40,10 +47,10 @@ namespace EcoFarmAPI.Src.Controladores
                 Mensagem = "Usuario não encontrado"
             }); return Ok(usuario);
 
-        }    
+        }
     }
-        #endregion
-    }
+    #endregion
+}
 
 
 
