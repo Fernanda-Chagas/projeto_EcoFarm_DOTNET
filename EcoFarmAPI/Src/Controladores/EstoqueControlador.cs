@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace EcoFarmAPI.Src.Controladores
 {
-    public class EstoqueControlador
-    {
+   
         [ApiController]
         [Route("api/Estoque")]
         [Produces("application/json")]
-        public class PostagemControlador : ControllerBase
+        public class EstoqueControlador : ControllerBase
         {
             #region Atributos
             private readonly IEstoque _repositorio;
@@ -74,7 +73,7 @@ namespace EcoFarmAPI.Src.Controladores
                 }
             }
 
-            [HttpDelete("deletar/{idPostagem}")]
+            [HttpDelete("deletar/{idProduto}")]
             public async Task<ActionResult> DeletarProdutoAsync([FromRoute] int idProduto)
             {
                 try
@@ -92,4 +91,3 @@ namespace EcoFarmAPI.Src.Controladores
         }
 
     }
-}
