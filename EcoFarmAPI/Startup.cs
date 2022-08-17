@@ -33,6 +33,7 @@ namespace EcoFarmAPI
             //Repositorios
             services.AddScoped<IEstoque, EstoqueRepositorio>();
             services.AddScoped<ICarrinho, CarrinhoRepositorio>();
+            services.AddScoped<IUsuario, UsuarioRepositorio>();
             // Controladores
             services.AddCors();
             services.AddControllers();
