@@ -32,6 +32,7 @@ namespace EcoFarmAPI
             services.AddDbContext<EcoFarmContexto>(opt => opt.UseSqlServer(Configuration["ConnectionStringsDev:DefaultConnection"]));
             //Repositorios
             services.AddScoped<IEstoque, EstoqueRepositorio>();
+            services.AddScoped<ICarrinho, CarrinhoRepositorio>();
             // Controladores
             services.AddCors();
             services.AddControllers();

@@ -29,11 +29,11 @@ namespace EcoFarmAPI.Src.Modelos
 
         public CategoriaProdutos Categoria { get; set; }
 
-        [JsonIgnore, InverseProperty("Estoque")]
-        public List<Carrinho> ProdutosSelecionados { get; set; }
-
         [ForeignKey("fk_fornecedor")]
         public Usuario Fornecedor { get; set; }
+
+        [JsonIgnore, InverseProperty("Produto")]
+        public List<Carrinho> ProdutosSelecionados { get; set; }
         
 
         #endregion

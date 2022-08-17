@@ -20,6 +20,7 @@ namespace EcoFarmAPI.Src.Modelos
 
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdProduto { get; set; }
+
         public string IdCompra { get; set; }
 
         [ForeignKey("fk_cliente")]
