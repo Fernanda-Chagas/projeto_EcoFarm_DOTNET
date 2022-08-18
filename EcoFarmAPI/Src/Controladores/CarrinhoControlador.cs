@@ -1,5 +1,7 @@
 ﻿using EcoFarmAPI.Src.Modelos;
 using EcoFarmAPI.Src.Repositorios;
+using EcoFarmAPI.Src.Servicos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,19 +18,23 @@ namespace EcoFarmAPI.Src.Controladores
         #region Atributos
 
         private readonly ICarrinho _repositorio;
+        private readonly IAutenticacao _servicos;
 
         #endregion
 
         #region Construtores
 
-        public CarrinhoControlador(ICarrinho repositorio)
+        public CarrinhoControlador(ICarrinho repositorio, IAutenticacao servicos)
         {
             _repositorio = repositorio;
+            _servicos = servicos;
         }
         #endregion
 
         #region Métodos
+
         [HttpPost]
+        [Authorize(Roles = "CLIENTE")]
         public async Task<ActionResult> NovoCarrinhoAsync([FromBody] List<Carrinho> listaProdutos)
         {
             try
@@ -43,6 +49,7 @@ namespace EcoFarmAPI.Src.Controladores
         }
 
         [HttpGet("id/{idCarrinho}")]
+        [Authorize(Roles = "CLIENTE")]
         public async Task<ActionResult> PegarCarrinhoPeloIdAsync([FromRoute] string id)
         {
             try
@@ -54,8 +61,6 @@ namespace EcoFarmAPI.Src.Controladores
                 return NotFound(new { Mensagem = ex.Message });
             }
         }
-
-
         #endregion
     }
 }

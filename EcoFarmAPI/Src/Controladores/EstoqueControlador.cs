@@ -1,5 +1,7 @@
 ﻿using EcoFarmAPI.Src.Modelos;
 using EcoFarmAPI.Src.Repositorios;
+using EcoFarmAPI.Src.Servicos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -13,40 +15,27 @@ namespace EcoFarmAPI.Src.Controladores
     public class EstoqueControlador : ControllerBase
     {
         #region Atributos
+
         private readonly IEstoque _repositorio;
+        private readonly IAutenticacao _servicos;
+
         #endregion
 
         #region Construtores
-        public EstoqueControlador(IEstoque repositorio)
+
+        public EstoqueControlador(IEstoque repositorio, IAutenticacao servicos)
         {
             _repositorio = repositorio;
+            _servicos = servicos;
+
         }
+
         #endregion
 
         #region Métodos
 
-        [HttpGet]
-        public async Task<ActionResult> PegarTodosProdutosAsync()
-        {
-            var lista = await _repositorio.PegarTodosProdutosAsync();
-            if (lista.Count < 1) return NoContent();
-            return Ok(lista);
-        }
-
-        [HttpGet("id/{idProduto}")]
-        public async Task<ActionResult> PegarProdutoPeloIdAsyncc([FromRoute] int idProduto)
-        {
-            try
-            {
-                return Ok(await _repositorio.PegarProdutoPeloIdAsync(idProduto));
-            }
-            catch (Exception ex)
-            {
-                return NotFound(new { Mensagem = ex.Message });
-            }
-        }
-
         [HttpPost]
+        [Authorize(Roles = "FORNECEDOR")]
         public async Task<ActionResult> NovoProdutoAsync([FromBody] Estoque produto)
         {
             try
@@ -59,7 +48,32 @@ namespace EcoFarmAPI.Src.Controladores
                 return BadRequest(new { Mensagem = ex.Message });
             }
         }
+
+        [HttpGet]
+        [Authorize(Roles = "CLIENTE")]
+        public async Task<ActionResult> PegarTodosProdutosAsync()
+        {
+            var lista = await _repositorio.PegarTodosProdutosAsync();
+            if (lista.Count < 1) return NoContent();
+            return Ok(lista);
+        }
+
+        [HttpGet("id/{idProduto}")]
+        [Authorize(Roles = "FORNECEDOR")]
+        public async Task<ActionResult> PegarProdutoPeloIdAsync([FromRoute] int idProduto)
+        {
+            try
+            {
+                return Ok(await _repositorio.PegarProdutoPeloIdAsync(idProduto));
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { Mensagem = ex.Message });
+            }
+        }
+
         [HttpPut]
+        [Authorize(Roles = "FORNECEDOR")]
         public async Task<ActionResult> AtualizarProdutoAsync([FromBody] Estoque produto)
         {
             try
@@ -74,6 +88,7 @@ namespace EcoFarmAPI.Src.Controladores
         }
 
         [HttpDelete("deletar/{idProduto}")]
+        [Authorize(Roles = "FORNECEDOR")]
         public async Task<ActionResult> DeletarProdutoAsync([FromRoute] int idProduto)
         {
             try
