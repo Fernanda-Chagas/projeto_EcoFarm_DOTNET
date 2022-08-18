@@ -27,6 +27,7 @@ namespace EcoFarmAPI.Src.Modelos
 
         public string Senha { get; set; }
 
+        [Required]
         public Categoria TipoUsuario { get; set; }
 
         [JsonIgnore, InverseProperty("Cliente")]

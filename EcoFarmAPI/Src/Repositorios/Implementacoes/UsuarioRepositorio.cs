@@ -8,28 +8,36 @@ namespace EcoFarmAPI.Src.Repositorios.Implementacoes
     public class UsuarioRepositorio : IUsuario
     {
         #region Atributos
+
         private readonly EcoFarmContexto _contexto;
+
         #endregion
+
         #region Construtores
+
         public UsuarioRepositorio(EcoFarmContexto contexto)
         {
             _contexto = contexto;
         }
+
         #endregion
+
         #region Métodos
+
         /// <summary>
         /// <para>Resumo: Método assíncrono para salvar um novo usuario</para>
         /// </summary>
         /// <param name="usuario">Construtor para cadastrar usuario</param>
+
         public async Task NovoUsuarioAsync(Usuario usuario)
         {
             await _contexto.Usuarios.AddAsync(
             new Usuario
             {
-                Email = usuario.Email,
                 Nome = usuario.Nome,
+                Email = usuario.Email,
                 Senha = usuario.Senha,
-                TipoUsuario = usuario.TipoUsuario,
+                TipoUsuario = usuario.TipoUsuario
             });
             await _contexto.SaveChangesAsync();
         }
@@ -39,12 +47,12 @@ namespace EcoFarmAPI.Src.Repositorios.Implementacoes
         /// </summary>
         /// <param name="email">Email do usuario</param>
         /// <return>UsuarioModelo</return>
+        
         public async Task<Usuario> PegarUsuarioPeloEmailAsync(string email)
         {
             return await _contexto.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
         }
+
         #endregion
-
-
     }
 }
