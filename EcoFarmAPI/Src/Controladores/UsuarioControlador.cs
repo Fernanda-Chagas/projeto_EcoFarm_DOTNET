@@ -36,6 +36,26 @@ namespace EcoFarmAPI.Src.Controladores
 
         #region Métodos
 
+        /// <summary>
+        /// Criar novo Usuario
+        /// </summary>
+        /// <param name="usuario">Contrutor para criar usuario</param>
+        /// <returns>ActionResult</returns>
+        /// <remarks>
+        /// Exemplo de requisição:
+        ///
+        /// POST /api/Usuarios/cadastrar
+        /// {
+        /// "nome": "Nome Sobrenome",
+        /// "email": "seuemail@domain.com",
+        /// "senha": "134652",
+        /// "tipo": "CLIENTE OU FORNECEDOR"
+        /// }
+        ///
+        /// </remarks>
+        /// <response code="201">Retorna usuario criado</response>
+        /// <response code="401">E-mail ja cadastrado</response>
+        
         [HttpPost("cadastrar")]
         [AllowAnonymous]
         public async Task<ActionResult> NovoUsuarioAsync([FromBody] Usuario usuario)
@@ -52,7 +72,16 @@ namespace EcoFarmAPI.Src.Controladores
             }
         }
 
+        /// <summary>
+        /// Pegar usuario pelo Email
+        /// </summary>
+        /// <param name="emailUsuario">E-mail do usuario</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="200">Retorna o usuario</response>
+        /// <response code="404">Email não existente</response>
+
         [HttpGet("email/{emailUsuario}")]
+        [Authorize(Roles = "CLIENTES, FORNECEDOR")]
         public async Task<ActionResult> PegarUsuarioPeloEmailAsync([FromRoute] string emailUsuario)
         {
             var usuario = await _repositorio.PegarUsuarioPeloEmailAsync(emailUsuario);
@@ -63,8 +92,26 @@ namespace EcoFarmAPI.Src.Controladores
 
         }
 
+        /// <summary>
+        /// Pegar Autorização
+        /// </summary>
+        /// <param name="usuario">Construtor para logar usuario</param>
+        /// <returns>ActionResult</returns>
+        /// <remarks>
+        /// Exemplo de requisição:
+        ///
+        /// POST /api/Usuarios/logar
+        /// {
+        /// "email": "seuemail@domain.com",
+        /// "senha": "134652"
+        /// }
+        ///
+        /// </remarks>
+        /// <response code="201">Retorna usuario criado</response>
+        /// <response code="401">E-mail ou senha invalido</response>
+
         [HttpPost("logar")]
-        [AllowAnonymous]
+        [Authorize(Roles = "CLIENTE, FORNECEDOR")]
         public async Task<ActionResult> LogarAsync([FromBody] Usuario usuario)
         {
             var auxiliar = await _repositorio.PegarUsuarioPeloEmailAsync(usuario.Email);
