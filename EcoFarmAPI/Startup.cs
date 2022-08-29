@@ -54,6 +54,29 @@ namespace EcoFarmAPI
             services.AddCors();
             services.AddControllers();
 
+            // Configura��o de Servi�os
+            services.AddScoped<IAutenticacao, AutenticacaoServicos>();
+
+            // Configura��o do Token Autentica��o JWTBearer
+            var chave = Encoding.ASCII.GetBytes(Configuration["Settings:Secret"]);
+            services.AddAuthentication(a =>
+            {
+                a.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                a.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(b =>
+            {
+                b.RequireHttpsMetadata = false;
+                b.SaveToken = true;
+                b.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(chave),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            }
+            );
+
             // Configura��o Swagger
             services.AddSwaggerGen(
             s =>
@@ -77,47 +100,24 @@ namespace EcoFarmAPI
                 s.AddSecurityRequirement(
                 new OpenApiSecurityRequirement
                 {
-                {
-                new OpenApiSecurityScheme
-                {
-                Reference = new OpenApiReference
-                {
-                Type = ReferenceType.SecurityScheme,
-                Id = "Bearer"
-                }
-                },
-                new List<string>()
-                }
-                }
-                );
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new List<string>()
+                    }
+                });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 s.IncludeXmlComments(xmlPath);
             }
             );
 
-            // Configura��o de Servi�os
-            services.AddScoped<IAutenticacao, AutenticacaoServicos>();
-
-            // Configura��o do Token Autentica��o JWTBearer
-            var chave = Encoding.ASCII.GetBytes(Configuration["Settings:Secret"]);
-            services.AddAuthentication(a =>
-            {
-                a.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                a.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(b =>
-            {
-                b.RequireHttpsMetadata = false;
-                b.SaveToken = true;
-                b.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(chave),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            }
-            );
 
         }
 
