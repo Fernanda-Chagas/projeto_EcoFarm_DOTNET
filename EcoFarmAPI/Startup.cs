@@ -36,8 +36,14 @@ namespace EcoFarmAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Configuração de Banco de dados
-            services.AddDbContext<EcoFarmContexto>(opt => opt.UseSqlServer(Configuration["ConnectionStringsDev:DefaultConnection"]));
+            // Configuraï¿½ï¿½o de Banco de dados
+            if (Configuration["Enviroment:Start"] == "PROD")
+            {
+                services.AddEntityFrameworkNpgsql().AddDbContext<EcoFarmContexto>(opt => opt.UseSqlServer(Configuration["ConnectionStringsDev:DefaultConnection"]));
+            }
+            else{
+                services.AddDbContext<EcoFarmContexto>(opt => opt.UseSqlServer(Configuration["ConnectionStringsDev:DefaultConnection"]));
+            }
 
             //Repositorios
             services.AddScoped<IEstoque, EstoqueRepositorio>();
@@ -48,7 +54,30 @@ namespace EcoFarmAPI
             services.AddCors();
             services.AddControllers();
 
-            // Configuração Swagger
+            // Configuraï¿½ï¿½o de Serviï¿½os
+            services.AddScoped<IAutenticacao, AutenticacaoServicos>();
+
+            // Configuraï¿½ï¿½o do Token Autenticaï¿½ï¿½o JWTBearer
+            var chave = Encoding.ASCII.GetBytes(Configuration["Settings:Secret"]);
+            services.AddAuthentication(a =>
+            {
+                a.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                a.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(b =>
+            {
+                b.RequireHttpsMetadata = false;
+                b.SaveToken = true;
+                b.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(chave),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            }
+            );
+
+            // Configuraï¿½ï¿½o Swagger
             services.AddSwaggerGen(
             s =>
             {
@@ -71,47 +100,24 @@ namespace EcoFarmAPI
                 s.AddSecurityRequirement(
                 new OpenApiSecurityRequirement
                 {
-                {
-                new OpenApiSecurityScheme
-                {
-                Reference = new OpenApiReference
-                {
-                Type = ReferenceType.SecurityScheme,
-                Id = "Bearer"
-                }
-                },
-                new List<string>()
-                }
-                }
-                );
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new List<string>()
+                    }
+                });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 s.IncludeXmlComments(xmlPath);
             }
             );
 
-            // Configuração de Serviços
-            services.AddScoped<IAutenticacao, AutenticacaoServicos>();
-
-            // Configuração do Token Autenticação JWTBearer
-            var chave = Encoding.ASCII.GetBytes(Configuration["Settings:Secret"]);
-            services.AddAuthentication(a =>
-            {
-                a.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                a.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(b =>
-            {
-                b.RequireHttpsMetadata = false;
-                b.SaveToken = true;
-                b.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(chave),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            }
-            );
 
         }
 
@@ -130,8 +136,14 @@ namespace EcoFarmAPI
                 });
             }
 
-            // Ambiente de produção
+            // Ambiente de produï¿½ï¿½o
             contexto.Database.EnsureCreated();
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "EcoFarm v1");
+                c.RoutePrefix = string.Empty;
+                });
 
             //Rotas
             app.UseRouting();
@@ -142,7 +154,7 @@ namespace EcoFarmAPI
                .AllowAnyHeader()
                );
 
-            // Autenticação e Autorização
+            // Autenticaï¿½ï¿½o e Autorizaï¿½ï¿½o
             app.UseAuthentication();
             app.UseAuthorization();
 
