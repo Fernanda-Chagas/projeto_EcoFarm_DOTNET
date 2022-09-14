@@ -37,7 +37,7 @@ namespace EcoFarmAPI.Src.Repositorios.Implementacoes
                 Nome = usuario.Nome,
                 Email = usuario.Email,
                 Senha = usuario.Senha,
-                TipoUsuario = usuario.TipoUsuario
+                Tipo = usuario.Tipo
             });
             await _contexto.SaveChangesAsync();
         }

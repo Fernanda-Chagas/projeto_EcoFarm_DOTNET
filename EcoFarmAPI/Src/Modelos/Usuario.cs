@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using static EcoFarmAPI.Src.Utilidades.Enum;
 
 namespace EcoFarmAPI.Src.Modelos
 {
@@ -28,9 +29,9 @@ namespace EcoFarmAPI.Src.Modelos
         public string Senha { get; set; }
 
         [Required]
-        public Categoria TipoUsuario { get; set; }
+        public TipoUsuario Tipo { get; set; }
 
-        [JsonIgnore, InverseProperty("Cliente")]
+        [JsonIgnore, InverseProperty("CLIENTE")]
         public List<Carrinho> Compras { get; set; }
 
         [JsonIgnore, InverseProperty("Fornecedor")]
@@ -39,11 +40,9 @@ namespace EcoFarmAPI.Src.Modelos
         #endregion
     }
 
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum Categoria 
+    public class LoginUsuario
     {
-        CLIENTE,
-        FORNECEDOR
+        public string Email { get; set; }
+        public string Senha { get; set; }
     }
-
 }
