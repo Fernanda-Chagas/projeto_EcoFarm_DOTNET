@@ -50,11 +50,13 @@ namespace EcoFarmAPI.Src.Controladores
         }
 
         [HttpGet]
-        [Authorize(Roles = "CLIENTE")]
+        [AllowAnonymous]
         public async Task<ActionResult> PegarTodosProdutosAsync()
         {
             var lista = await _repositorio.PegarTodosProdutosAsync();
+
             if (lista.Count < 1) return NoContent();
+
             return Ok(lista);
         }
 

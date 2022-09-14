@@ -36,12 +36,13 @@ namespace EcoFarmAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Configuraï¿½ï¿½o de Banco de dados
+            // Configuração de Banco de dados
             if (Configuration["Enviroment:Start"] == "PROD")
-            {
+            { 
                 services.AddEntityFrameworkNpgsql().AddDbContext<EcoFarmContexto>(opt => opt.UseSqlServer(Configuration["ConnectionStringsDev:DefaultConnection"]));
             }
-            else{
+            else
+            {
                 services.AddDbContext<EcoFarmContexto>(opt => opt.UseSqlServer(Configuration["ConnectionStringsDev:DefaultConnection"]));
             }
 
@@ -54,10 +55,10 @@ namespace EcoFarmAPI
             services.AddCors();
             services.AddControllers();
 
-            // Configuraï¿½ï¿½o de Serviï¿½os
+            // Configuração de Serviços
             services.AddScoped<IAutenticacao, AutenticacaoServicos>();
 
-            // Configuraï¿½ï¿½o do Token Autenticaï¿½ï¿½o JWTBearer
+            // Configuração do Token Autenticação JWTBearer
             var chave = Encoding.ASCII.GetBytes(Configuration["Settings:Secret"]);
             services.AddAuthentication(a =>
             {
@@ -77,8 +78,8 @@ namespace EcoFarmAPI
             }
             );
 
-            // Configuraï¿½ï¿½o Swagger
-            services.AddSwaggerGen(
+            // Configuração Swagger
+           services.AddSwaggerGen(
             s =>
             {
                 s.SwaggerDoc("v1", new OpenApiInfo
@@ -116,8 +117,7 @@ namespace EcoFarmAPI
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 s.IncludeXmlComments(xmlPath);
             }
-            );
-
+            );  
 
         }
 
@@ -136,14 +136,14 @@ namespace EcoFarmAPI
                 });
             }
 
-            // Ambiente de produï¿½ï¿½o
+            // Ambiente de produção
             contexto.Database.EnsureCreated();
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "EcoFarm v1");
                 c.RoutePrefix = string.Empty;
-                });
+            });
 
             //Rotas
             app.UseRouting();
@@ -154,7 +154,7 @@ namespace EcoFarmAPI
                .AllowAnyHeader()
                );
 
-            // Autenticaï¿½ï¿½o e Autorizaï¿½ï¿½o
+            // Autenticação e Autorização
             app.UseAuthentication();
             app.UseAuthorization();
 

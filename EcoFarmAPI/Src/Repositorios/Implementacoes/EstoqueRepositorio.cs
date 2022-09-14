@@ -56,7 +56,10 @@ namespace EcoFarmAPI.Src.Repositorios.Implementacoes
         {
 
             if (!ExisteId(id)) throw new Exception("Id do produto não encontrado");
-            return await _contexto.Produtos.FirstOrDefaultAsync(p => p.Id == id);
+
+            return await _contexto.Produtos
+                .Include(p=>p.Fornecedor)
+                .FirstOrDefaultAsync(p => p.Id == id);
             // funções auxiliares
             bool ExisteId(int id)
             {

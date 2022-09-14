@@ -16,6 +16,17 @@ namespace EcoFarmAPI.Src.Modelos
     public class Estoque
     {
         #region Atributos
+        public Estoque () { }
+
+        public Estoque( string nomeProduto, float valor, int quantidade, CategoriaProdutos categoria, Usuario fornecedor)
+        {
+            NomeProduto = nomeProduto;
+            Valor = valor;
+            Quantidade = quantidade;
+            Categoria = categoria;
+            Fornecedor = fornecedor;
+        }      
+
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

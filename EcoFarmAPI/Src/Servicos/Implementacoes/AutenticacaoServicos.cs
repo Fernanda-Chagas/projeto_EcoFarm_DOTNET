@@ -79,7 +79,7 @@ namespace EcoFarmAPI.Src.Servicos.Implementacoes
                     new Claim[]
                     {
                         new Claim(ClaimTypes.Email, usuario.Email.ToString()),
-                        new Claim(ClaimTypes.Role, usuario.TipoUsuario.ToString())
+                        new Claim(ClaimTypes.Role, usuario.Tipo.ToString())
                     }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(
