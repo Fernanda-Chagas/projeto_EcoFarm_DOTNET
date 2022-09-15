@@ -43,15 +43,15 @@ namespace EcoFarmAPI.Src.Controladores
         /// <returns>ActionResult</returns>
         /// <remarks>
         /// Exemplo de requisição:
-        ///<remarks>
-        /// POST /api/Usuarios/cadastrar
-        /// </remarks>
-        /// {
-        /// "nome": "Nome Sobrenome",
-        /// "email": "seuemail@domain.com",
-        /// "senha": "134652",
-        /// "tipo": "CLIENTE OU FORNECEDOR"
-        /// }
+        ///
+        /// <para>POST /api/Usuarios/cadastrar</para>
+        ///
+        /// <para>{</para>
+        /// <para>nome": "Nome Sobrenome",</para>
+        /// <para>"email": "seuemail@domain.com",</para>
+        /// <para>"senha": "134652",</para>
+        /// <para>"tipo": "CLIENTE OU FORNECEDOR"</para>
+        /// <para>}</para>
         ///
         /// </remarks>
         /// <response code="201">Retorna usuario criado</response>
@@ -101,11 +101,11 @@ namespace EcoFarmAPI.Src.Controladores
         /// <remarks>
         /// Exemplo de requisição:
         ///
-        /// POST /api/Usuarios/logar
-        /// {
-        /// "email": "seuemail@domain.com",
-        /// "senha": "134652"
-        /// }
+        /// <para>POST /api/Usuarios/logar</para>
+        /// <para>{</para>
+        /// <para>"email": "seuemail@domain.com",</para>
+        /// <para>"senha": "134652"</para>
+        /// <para>}</para>
         ///
         /// </remarks>
         /// <response code="201">Retorna usuario criado</response>
