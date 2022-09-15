@@ -39,7 +39,12 @@ namespace EcoFarmAPI.Src.Modelos
 
         #endregion
     }
-
+    /// <summary>
+    /// <para>Resumo: Responsavel por representar login do Usuario.</para>
+    /// <para>Criado por: Jonathan</para>
+    /// <para>Versão: 1.0</para>
+    /// <para>Data: 14/09/2022</para>
+    /// </summary>
     public class LoginUsuario
     {
         public string Email { get; set; }

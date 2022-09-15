@@ -18,11 +18,12 @@ namespace EcoFarmAPI.Src.Modelos
         #region Atributos
         public Estoque () { }
 
-        public Estoque( string nomeProduto, float valor, int quantidade, CategoriaProdutos categoria, Usuario fornecedor)
+        public Estoque( string nomeProduto, float valor, int quantidade, CategoriaProdutos categoria, string fotoProduto, Usuario fornecedor)
         {
             NomeProduto = nomeProduto;
             Valor = valor;
             Quantidade = quantidade;
+            FotoProduto = fotoProduto;
             Categoria = categoria;
             Fornecedor = fornecedor;
         }      
@@ -37,6 +38,8 @@ namespace EcoFarmAPI.Src.Modelos
         public float Valor { get; set; }
 
         public int Quantidade { get; set; }
+       
+        public string FotoProduto { get; set; }
 
         public CategoriaProdutos Categoria { get; set; }
 

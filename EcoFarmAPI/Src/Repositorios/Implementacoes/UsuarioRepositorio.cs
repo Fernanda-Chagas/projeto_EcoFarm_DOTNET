@@ -28,7 +28,6 @@ namespace EcoFarmAPI.Src.Repositorios.Implementacoes
         /// <para>Resumo: Método assíncrono para salvar um novo usuario</para>
         /// </summary>
         /// <param name="usuario">Construtor para cadastrar usuario</param>
-
         public async Task NovoUsuarioAsync(Usuario usuario)
         {
             await _contexto.Usuarios.AddAsync(
@@ -46,8 +45,7 @@ namespace EcoFarmAPI.Src.Repositorios.Implementacoes
         /// <para>Resumo: Método assíncrono para pegar um usuario pelo email</para>
         /// </summary>
         /// <param name="email">Email do usuario</param>
-        /// <return>UsuarioModelo</return>
-        
+        /// <return>UsuarioModelo</return>        
         public async Task<Usuario> PegarUsuarioPeloEmailAsync(string email)
         {
             return await _contexto.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
